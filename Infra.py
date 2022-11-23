@@ -30,16 +30,14 @@ def posix_compile(c_file_path):
     command = ["gcc",c_file_path, "-o", output_path, "-lm"]
     result = call(command)
     if result != 0:
-        raise CTestingInfraException(f"gcc has failed. Could not compile C file")
+        raise CTestingInfraException(f"gcc has failed. Could not compile C file: {c_file_path}")
 
     return output_path
-
 
 
 C_EXEC_PATH = None
 def compile_if_needed(path):
     global C_EXEC_PATH
-    # c_file_path = "/home/idan/Projects/C101/C101/EX2/ex2_313333775.c"
 
     if C_EXEC_PATH is None:
         if os.name == "posix":

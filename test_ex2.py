@@ -1,5 +1,3 @@
-C_FILE_PATH = "<Path to your C file>"
-
 import os
 import sys
 import pytest
@@ -14,9 +12,11 @@ sys.setrecursionlimit(2000)
 
 compiled_path = None
 @pytest.fixture(scope='session', autouse=True)
-def compile():
+def compile(request):
+    c_file_path = request.config.option.path
+    print(request.config.option.path)
     global compiled_path
-    compiled_path = Infra.compile_if_needed(C_FILE_PATH)
+    compiled_path = Infra.compile_if_needed(c_file_path)
 
 
 def execute_ex2_test(question_number, question_input, expected_output):
