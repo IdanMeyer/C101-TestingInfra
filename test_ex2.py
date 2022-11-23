@@ -1,7 +1,7 @@
 import Infra
 import os
+import pytest
 
-os.linesep
 C_EXEC_PATH = "/tmp/exec"
 
 def execute_ex2_test(question_number, question_input, expected_output):
@@ -10,6 +10,20 @@ def execute_ex2_test(question_number, question_input, expected_output):
     assert result == expected_output
 
 
-def test_always_passes():
-    # out = Infra.execute_c_bin(C_EXEC_PATH, f"1{os.linesep}10{os.linesep}")
-    execute_ex2_test(1, 10, "1010")
+class TestQuestion1(object):
+    QUESTION_NUMBER = 1
+
+    def test_sanity(self):
+        execute_ex2_test(self.QUESTION_NUMBER, 10, "1010")
+
+    def test_examples(self):
+        execute_ex2_test(self.QUESTION_NUMBER, 10, "1010")
+        execute_ex2_test(self.QUESTION_NUMBER, 158, "10011110")
+        execute_ex2_test(self.QUESTION_NUMBER, 1000, "1111101000")
+
+    @pytest.mark.parametrize('num',range(0, 1024))
+    def test_automated(self, num):
+        print(f"input number: {num}")
+        expected_output = bin(num)[2:]
+        print(f"expected_output: {expected_output}")
+        execute_ex2_test(self.QUESTION_NUMBER, num, expected_output)
