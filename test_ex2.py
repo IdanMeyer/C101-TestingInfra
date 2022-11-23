@@ -6,6 +6,7 @@ import math
 import Infra
 
 C_EXEC_PATH = "/tmp/exec"
+# Setting a large recursion limit because it is needed at q2 and q3 algorithms
 sys.setrecursionlimit(2000)
 
 
