@@ -1,3 +1,5 @@
+C_FILE_PATH = "<Path to your C file>"
+
 import os
 import sys
 import pytest
@@ -5,14 +7,21 @@ import math
 
 import Infra
 
-C_EXEC_PATH = "/tmp/exec"
 # Setting a large recursion limit because it is needed at q2 and q3 algorithms
 sys.setrecursionlimit(2000)
 
 
+
+compiled_path = None
+@pytest.fixture(scope='session', autouse=True)
+def compile():
+    global compiled_path
+    compiled_path = Infra.compile_if_needed(C_FILE_PATH)
+
+
 def execute_ex2_test(question_number, question_input, expected_output):
     input_string = f"{question_number}{os.linesep}{question_input}{os.linesep}"
-    result = Infra.execute_c_bin_and_parse_result(C_EXEC_PATH, input_string)
+    result = Infra.execute_c_bin_and_parse_result(compiled_path, input_string)
     assert result == expected_output
 
 
