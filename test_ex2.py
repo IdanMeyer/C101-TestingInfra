@@ -6,7 +6,7 @@ import math
 import Infra
 
 C_EXEC_PATH = "/tmp/exec"
-sys.setrecursionlimit(1500)
+sys.setrecursionlimit(2000)
 
 
 def execute_ex2_test(question_number, question_input, expected_output):
@@ -34,8 +34,6 @@ class TestQuestion1(object):
         execute_ex2_test(self.QUESTION_NUMBER, num, expected_output)
 
 
-
-
 class TestQuestion2(object):
     QUESTION_NUMBER = 2
 
@@ -55,11 +53,38 @@ class TestQuestion2(object):
         execute_ex2_test(self.QUESTION_NUMBER, 100, "10.509991")
         execute_ex2_test(self.QUESTION_NUMBER, 1000, "32.126479")
 
-    @pytest.mark.parametrize('num',range(0, 1000))
+    @pytest.mark.parametrize('num',range(0, 1500))
     def test_automated(self, num):
         print(f"input number: {num}")
-        # expected_output = str(round(self.question_2_alg(num), 6))
         expected_output = '{:.6f}'.format(self.question_2_alg(num))
+
+        print(f"expected_output: {expected_output}")
+        execute_ex2_test(self.QUESTION_NUMBER, num, expected_output)
+
+
+class TestQuestion3(object):
+    QUESTION_NUMBER = 3
+
+    def question_3_alg(self, n, i=1):
+        if n <=0:
+            return 0
+        if (i == n):
+            return math.sqrt(i)
+        return math.sqrt(i + self.question_3_alg(n, i+1))
+
+
+    def test_sanity(self):
+        execute_ex2_test(self.QUESTION_NUMBER, 3, "1.712265")
+
+    def test_examples(self):
+        execute_ex2_test(self.QUESTION_NUMBER, 10, "1.757933")
+        execute_ex2_test(self.QUESTION_NUMBER, 100, "1.757933")
+        execute_ex2_test(self.QUESTION_NUMBER, 1000, "1.757933")
+
+    @pytest.mark.parametrize('num',range(0, 1500))
+    def test_automated(self, num):
+        print(f"input number: {num}")
+        expected_output = '{:.6f}'.format(self.question_3_alg(num))
 
         print(f"expected_output: {expected_output}")
         execute_ex2_test(self.QUESTION_NUMBER, num, expected_output)
