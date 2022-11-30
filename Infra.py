@@ -40,13 +40,18 @@ def windows_compile(c_file_path):
     print(f"Compiling file: {c_file_path}")
 
     tempdir = tempfile.mkdtemp()
+    print(f"tempdir is: {tempdir}")
+    vcvars64_path = r"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
+    result = os.system(f'dir "{vcvars64_path}"')
+    if result != 0:
+        raise CTestingInfraException(f"Could not find vcvars64.bat. Did you install Visual Studio 2019 community properly?. Searched for file: {vcvars64_path}")
 
     # TODO: VERY ugly way to handle the path, maybe find a better way
-    command = r'call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat" && cd ' +  tempdir + ' && '  + 'cl "'+ c_file_path +'"'
+    command = f'call "{vcvars64_path}" && cd {tempdir}  && cl "{c_file_path}"'
     # TODO: Use call instead of system?
     result = os.system(command)
     if result != 0:
-        raise CTestingInfraException(f"gcc has failed. Could not compile C file: {c_file_path}")
+        raise CTestingInfraException(f"cl has failed. Could not compile C file: {c_file_path}")
 
     output_path = os.path.join(tempdir, f"{Path(os.path.basename(c_file_path)).stem}.exe")
     return output_path

@@ -9,7 +9,6 @@ import Infra
 sys.setrecursionlimit(2000)
 
 
-
 compiled_path = None
 @pytest.fixture(scope='session', autouse=True)
 def compile(request):
