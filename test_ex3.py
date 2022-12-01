@@ -188,3 +188,77 @@ class TestQuestion3(object):
         random.shuffle(lst)
         print(f"input list: {lst}")
         execute_ex3_test(self.QUESTION_NUMBER, str(lst)[1:-1].replace(' ',''), "1")
+
+
+class TestQuestion4(object):
+    QUESTION_NUMBER = 4
+
+    def test_sanity(self):
+        execute_ex3_test(self.QUESTION_NUMBER, "4,0,0,2,0,5", "14")
+
+    def test_examples(self):
+        execute_ex3_test(self.QUESTION_NUMBER, "4,0,0,2,0,5", "14")
+        execute_ex3_test(self.QUESTION_NUMBER, "4,0,0,4,0,5", "12")
+
+    def test_examples_from_internet(self):
+        execute_ex3_test(self.QUESTION_NUMBER, "3,0,2,0,4", "7")
+        execute_ex3_test(self.QUESTION_NUMBER, "0,1,0,2,1,0,1,3,2,1,2,1", "6")
+
+    def test_adding_zeros_at_edges(self):
+        execute_ex3_test(self.QUESTION_NUMBER, "4,0,0,2,0,5", "14")
+        execute_ex3_test(self.QUESTION_NUMBER, "0,4,0,0,2,0,5", "14")
+        execute_ex3_test(self.QUESTION_NUMBER, "0,0,4,0,0,2,0,5", "14")
+        execute_ex3_test(self.QUESTION_NUMBER, "0,0,4,0,0,2,0,5,0", "14")
+        execute_ex3_test(self.QUESTION_NUMBER, "0,0,4,0,0,2,0,5,0,0", "14")
+        execute_ex3_test(self.QUESTION_NUMBER, "4,0,0,2,0,5,0,0", "14")
+
+    def test_asymetrical_walls(self):
+        execute_ex3_test(self.QUESTION_NUMBER, "1,0,0,7", "2")
+        execute_ex3_test(self.QUESTION_NUMBER, "7,0,0,1", "2")
+
+        execute_ex3_test(self.QUESTION_NUMBER, "2,0,0,100", "4")
+        execute_ex3_test(self.QUESTION_NUMBER, "100,0,0,2", "4")
+
+    def max_water_from_internet(self, arr, n):
+        # To store the maximum water
+        # that can be stored
+        res = 0
+
+        # For every element of the array
+        for i in range(1, n - 1):
+
+            # Find the maximum element on its left
+            left = arr[i]
+            for j in range(i):
+                left = max(left, arr[j])
+
+            # Find the maximum element on its right
+            right = arr[i]
+
+            for j in range(i + 1, n):
+                right = max(right, arr[j])
+
+            # Update the maximum water
+            res = res + (min(left, right) - arr[i])
+
+        return res
+
+    @pytest.mark.parametrize('iter_number',range(1, 50))
+    @pytest.mark.parametrize('number_of_items',range(1, 10))
+    @pytest.mark.parametrize('max_int', [20])
+    def test_automated(self, max_int, iter_number, number_of_items):
+        lst = [random.randint(0, max_int) for _ in range(number_of_items)]
+        print(f"input list: {lst}")
+        expected_output = self.max_water_from_internet(lst, len(lst))
+        print(f"expected_output: {expected_output}")
+        execute_ex3_test(self.QUESTION_NUMBER, str(lst)[1:-1].replace(' ',''), str(expected_output))
+
+    @pytest.mark.parametrize('iter_number',range(1, 50))
+    @pytest.mark.parametrize('number_of_items',range(1, 10))
+    @pytest.mark.parametrize('max_int', [4])
+    def test_automated_small_numbers(self, max_int, iter_number, number_of_items):
+        lst = [random.randint(0, max_int) for _ in range(number_of_items)]
+        print(f"input list: {lst}")
+        expected_output = self.max_water_from_internet(lst, len(lst))
+        print(f"expected_output: {expected_output}")
+        execute_ex3_test(self.QUESTION_NUMBER, str(lst)[1:-1].replace(' ',''), str(expected_output))
