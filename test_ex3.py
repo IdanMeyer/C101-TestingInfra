@@ -54,7 +54,6 @@ class TestQuestion1(object):
 
     @pytest.mark.parametrize('iter_number',range(1, 100))
     @pytest.mark.parametrize('number_of_items',range(1, 10))
-
     def test_automated(self, iter_number, number_of_items):
         lst = [random.randint(-100, +100) for x in range(number_of_items)]
         print(f"input number: {lst}")
@@ -91,7 +90,101 @@ class TestQuestion2(object):
         self.execute_ex3_q2_test([10,11,12,13], 5, 0)
         self.execute_ex3_q2_test([10,11,12,13], 9, 0)
 
-    def test_many_swaps(self):
-        self.execute_ex3_q2_test([1,9,2,9,3,9,4,9], 3, 2)
-        self.execute_ex3_q2_test([1,9,2,9,3,9,4,9], 4, 3)
-        self.execute_ex3_q2_test([1,9,2,9,3,9,4,9,1,9,1,9], 4, 5)
+    def min_swaps_from_internet(self, arr, n, k) :
+        count = 0
+        for i in range(0, n) :
+            if (arr[i] <= k) :
+                count = count + 1
+
+        # Find unwanted elements
+        # in current window of
+        # size 'count'
+        bad = 0
+        for i in range(0, count) :
+            if (arr[i] > k) :
+                bad = bad + 1
+
+        # Initialize answer with
+        # 'bad' value of current
+        # window
+        ans = bad
+        j = count
+        for i in range(0, n) :
+
+            if(j == n) :
+                break
+
+            # Decrement count of
+            # previous window
+            if (arr[i] > k) :
+                bad = bad - 1
+
+            # Increment count of
+            # current window
+            if (arr[j] > k) :
+                bad = bad + 1
+
+            # Update ans if count
+            # of 'bad' is less in
+            # current window
+            ans = min(ans, bad)
+
+            j = j + 1
+
+        return ans
+
+    @pytest.mark.parametrize('iter_number',range(1, 100))
+    @pytest.mark.parametrize('number_of_items',range(1, 10))
+    @pytest.mark.parametrize('k',range(1, 10))
+    def test_automated(self, iter_number, number_of_items, k):
+        lst = [random.randint(1, 20) for x in range(number_of_items)]
+        print(f"input number: {lst}")
+        print(f"k number: {k}")
+        expected_output = self.min_swaps_from_internet(lst, len(lst), k)
+        print(f"expected_output: {expected_output}")
+        self.execute_ex3_q2_test(lst, k, expected_output)
+
+
+class TestQuestion3(object):
+    QUESTION_NUMBER = 3
+
+    def test_sanity(self):
+        execute_ex3_test(self.QUESTION_NUMBER, "2,3,1,2,3", "1")
+
+    def test_examples(self):
+        execute_ex3_test(self.QUESTION_NUMBER, "2,3,1,2,3", "1")
+        execute_ex3_test(self.QUESTION_NUMBER, "0,3,1,2", "-1")
+
+    @pytest.mark.parametrize('iter_number',range(1, 100))
+    @pytest.mark.parametrize('number_of_items',range(1, 14))
+    def test_no_duplicates(self, iter_number, number_of_items):
+        lst = [x for x in range(number_of_items)]
+        random.shuffle(lst)
+        print(f"input list: {lst}")
+        execute_ex3_test(self.QUESTION_NUMBER, str(lst)[1:-1].replace(' ',''), "-1")
+
+    @pytest.mark.parametrize('iter_number',range(1, 20))
+    @pytest.mark.parametrize('number_of_items',range(1, 10))
+    def test_single_duplicate(self, iter_number, number_of_items):
+        lst = [x for x in range(number_of_items)]
+        # Adding a single duplicate item
+        dup_item = random.choice(lst)
+        lst.append(dup_item)
+
+        random.shuffle(lst)
+        print(f"input list: {lst}")
+        execute_ex3_test(self.QUESTION_NUMBER, str(lst)[1:-1].replace(' ',''), "1")
+
+    @pytest.mark.parametrize('iter_number',range(1, 20))
+    @pytest.mark.parametrize('number_of_items',range(1, 10))
+    @pytest.mark.parametrize('number_of_duplicates',range(1, 4))
+    def test_multiple_duplicate(self, iter_number, number_of_items, number_of_duplicates):
+        lst = [x for x in range(number_of_items)]
+        # Adding a single random item
+        for _ in range(number_of_duplicates):
+            dup_item = random.choice(lst)
+            lst.append(dup_item)
+
+        random.shuffle(lst)
+        print(f"input list: {lst}")
+        execute_ex3_test(self.QUESTION_NUMBER, str(lst)[1:-1].replace(' ',''), "1")
