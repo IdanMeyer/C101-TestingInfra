@@ -52,8 +52,8 @@ class TestQuestion1(object):
                 max_length = len(option)
         return max_length
 
-    @pytest.mark.parametrize('iter_number',range(1, 100))
-    @pytest.mark.parametrize('number_of_items',range(1, 10))
+    @pytest.mark.parametrize('iter_number',range(1, 99))
+    @pytest.mark.parametrize('number_of_items',range(1, 7))
     def test_automated(self, iter_number, number_of_items):
         lst = [random.randint(-100, +100) for x in range(number_of_items)]
         print(f"input number: {lst}")
