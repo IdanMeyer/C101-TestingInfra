@@ -54,9 +54,44 @@ class TestQuestion1(object):
 
     @pytest.mark.parametrize('iter_number',range(1, 100))
     @pytest.mark.parametrize('number_of_items',range(1, 10))
+
     def test_automated(self, iter_number, number_of_items):
         lst = [random.randint(-100, +100) for x in range(number_of_items)]
         print(f"input number: {lst}")
         expected_output = self.get_max_sublist(lst)
         print(f"expected_output: {expected_output}")
         execute_ex3_test(self.QUESTION_NUMBER, str(lst)[1:-1].replace(' ',''), str(expected_output))
+
+
+class TestQuestion2(object):
+    QUESTION_NUMBER = 2
+
+    def execute_ex3_q2_test(self, array, k, expected_output):
+        if type(array) == list:
+            array = str(array)[1:-1].replace(' ','')
+        input_string = f"{array}{os.linesep}{k}{os.linesep}"
+        execute_ex3_test(self.QUESTION_NUMBER, input_string, str(expected_output))
+
+    def test_sanity(self):
+        self.execute_ex3_q2_test("2,1,5,6,3", "3", 1)
+
+    def test_examples(self):
+        self.execute_ex3_q2_test("2,1,5,6,3", "3", 1)
+        self.execute_ex3_q2_test("2,7,9,5,8,7,4", "5", 2)
+
+    def test_all_numbers_already_match(self):
+        self.execute_ex3_q2_test("1,2,3", "10", 0)
+        self.execute_ex3_q2_test([1,2,3,4], 4, 0)
+        self.execute_ex3_q2_test([1,1,1,1,1,1], 1, 0)
+        self.execute_ex3_q2_test([1,20,20,20], 1, 0)
+        self.execute_ex3_q2_test([1,1,20,20,20], 1, 0)
+
+    def test_no_numbers_match_at_all(self):
+        self.execute_ex3_q2_test([10,11,12,13], 1, 0)
+        self.execute_ex3_q2_test([10,11,12,13], 5, 0)
+        self.execute_ex3_q2_test([10,11,12,13], 9, 0)
+
+    def test_many_swaps(self):
+        self.execute_ex3_q2_test([1,9,2,9,3,9,4,9], 3, 2)
+        self.execute_ex3_q2_test([1,9,2,9,3,9,4,9], 4, 3)
+        self.execute_ex3_q2_test([1,9,2,9,3,9,4,9,1,9,1,9], 4, 5)
