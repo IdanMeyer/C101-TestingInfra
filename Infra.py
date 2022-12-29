@@ -58,8 +58,10 @@ def windows_compile(c_file_path):
 
 
 C_EXEC_PATH = None
-def compile_if_needed(path):
+def compile_if_needed(path, force=False):
     global C_EXEC_PATH
+    if force:
+        C_EXEC_PATH=None
 
     if C_EXEC_PATH is None:
         if os.name == "posix":
