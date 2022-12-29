@@ -32,10 +32,10 @@ class TestQuestion1(object):
         execute_ex3_test(self.QUESTION_NUMBER, "1,-2,1,1,-2,1", "2")
         execute_ex3_test(self.QUESTION_NUMBER, "-2,-3,4,-1,-2,1,5,-3", "5")
 
-    def test_only_negative_numbers(self):
-        execute_ex3_test(self.QUESTION_NUMBER, "-1", "1")
-        execute_ex3_test(self.QUESTION_NUMBER, "-1,-2,-3", "1")
-        execute_ex3_test(self.QUESTION_NUMBER, "-30,-70,-85", "1")
+    # def test_only_negative_numbers(self):
+    #     execute_ex3_test(self.QUESTION_NUMBER, "-1", "1")
+    #     execute_ex3_test(self.QUESTION_NUMBER, "-1,-2,-3", "1")
+    #     execute_ex3_test(self.QUESTION_NUMBER, "-30,-70,-85", "1")
 
     def test_zero(self):
         execute_ex3_test(self.QUESTION_NUMBER, "0", "1")
@@ -55,7 +55,8 @@ class TestQuestion1(object):
     @pytest.mark.parametrize('iter_number',range(1, 99))
     @pytest.mark.parametrize('number_of_items',range(1, 7))
     def test_automated(self, iter_number, number_of_items):
-        lst = [random.randint(-100, +100) for x in range(number_of_items)]
+        lst = [random.randint(-100, +100) for x in range(number_of_items-1)] + [random.randint(1, +100)]
+        random.shuffle(lst)
         print(f"input number: {lst}")
         expected_output = self.get_max_sublist(lst)
         print(f"expected_output: {expected_output}")
