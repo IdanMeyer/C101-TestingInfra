@@ -62,9 +62,9 @@ def execute_ex4_test(c_path, p,q,r,exact=False):
     else:
         is_right_angle_str = "not a right angle triangle"
 
-    expected_output = "The perimeter of a triangle with corners (%g, %g), (%g, %g) and (%g, %g) is %g\n"%(p[0], p[1], q[0],q[1],r[0],r[1], perimeter)
-    expected_output += "The area of a triangle with corners (%g, %g), (%g, %g) and (%g, %g) is %g\n"%(p[0], p[1], q[0],q[1],r[0],r[1], area)
-    expected_output += "The triangle with corners (%g, %g), (%g, %g) and (%g, %g) is %s\n"%(p[0], p[1], q[0],q[1],r[0],r[1], is_right_angle_str)
+    expected_output = "The perimeter of a triangle with corners (%g, %g), (%g, %g) and (%g, %g) is %g%s"%(p[0], p[1], q[0],q[1],r[0],r[1], perimeter, os.linesep)
+    expected_output += "The area of a triangle with corners (%g, %g), (%g, %g) and (%g, %g) is %g%s"%(p[0], p[1], q[0],q[1],r[0],r[1], area, os.linesep)
+    expected_output += "The triangle with corners (%g, %g), (%g, %g) and (%g, %g) is %s%s"%(p[0], p[1], q[0],q[1],r[0],r[1], is_right_angle_str, os.linesep)
 
 
     input_string = f""
@@ -154,40 +154,12 @@ class TestQuestion1(object):
         r = ( sqrt(random.uniform(low_end, high_end)),  sqrt(random.uniform(low_end, high_end)))
         execute_ex4_test(request.config.option.path, p,q,r, exact=True)
 
-    @pytest.mark.parametrize('iter_number',range(300))
-    def test_random_points_stress(self, request, iter_number):
-        low_end = -10000
-        high_end = 10000
-        p = ( random.uniform(low_end, high_end),  random.uniform(low_end, high_end))
-        q = ( random.uniform(low_end, high_end),  random.uniform(low_end, high_end))
-        r = ( random.uniform(low_end, high_end),  random.uniform(low_end, high_end))
-        execute_ex4_test(request.config.option.path, p,q,r, exact=True)
-
-
-    # @pytest.mark.parametrize('p', [])
-    # @pytest.mark.parametrize('q', [])
-    # @pytest.mark.parametrize('r', [])
-    # def test_examples(self, a, b, c):
-    #     pass
-
-    # @pytest.mark.parametrize('a',range(-10, 10))
-    # @pytest.mark.parametrize('b',range(-10, 10))
-    # @pytest.mark.parametrize('c',range(-10, 10))
-    # def test_quad(self, a, b, c):
-    #     if a==0:
-    #         return
-    #     if a==0 and b==0 and c ==0:
-    #         execute_semi_automated_test(0,0,0, f"0")
-    #     elif a == 1 and b>1 and c>=0:
-    #         execute_semi_automated_test(a,b,c, f"x^2+{b}x+{c}")
-    #     elif a == -1 and b>1 and c>=0:
-    #         execute_semi_automated_test(a,b,c, f"-x^2+{b}x+{c}")
-    #     elif a == 1 and b==1 and c>=0:
-    #         execute_semi_automated_test(a,b,c, f"x^2+x+{c}")
-    #     elif a == -1 and b==1 and c>=0:
-    #         execute_semi_automated_test(a,b,c, f"-x^2+x+{c}")
-    #     elif a > 1 and b==1 and c>=0:
-    #         execute_semi_automated_test(a,b,c, f"{a}x^2+x+{c}")
-    #     elif a < -1 and b==1 and c>=0:
-    #         execute_semi_automated_test(a,b,c, f"{a}-x^2+x+{c}")
+    # @pytest.mark.parametrize('iter_number',range(300))
+    # def test_random_points_stress(self, request, iter_number):
+    #     low_end = -10000
+    #     high_end = 10000
+    #     p = ( random.uniform(low_end, high_end),  random.uniform(low_end, high_end))
+    #     q = ( random.uniform(low_end, high_end),  random.uniform(low_end, high_end))
+    #     r = ( random.uniform(low_end, high_end),  random.uniform(low_end, high_end))
+    #     execute_ex4_test(request.config.option.path, p,q,r, exact=True)
 

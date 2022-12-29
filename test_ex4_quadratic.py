@@ -62,22 +62,22 @@ def solve_quadratic_equation(a,b,c):
 
 def execute_semi_automated_test(a,b,c,quadratic_equation):
     sol = solve_quadratic_equation(a,b,c)
-    expected_output = f"Please enter three numbers:\n{quadratic_equation} = 0 {sol}\n"
+    expected_output = f"Please enter three numbers:{os.linesep}{quadratic_equation} = 0 {sol}{os.linesep}"
     execute_ex4_test(a,b,c, expected_output)
 
 
 class TestQuestion1(object):
 
     def test_sanity(self):
-        execute_ex4_test(1,2,3, "Please enter three numbers:\nx^2+2x+3 = 0 has no real roots\n")
+        execute_ex4_test(1,2,3, f"Please enter three numbers:{os.linesep}x^2+2x+3 = 0 has no real roots{os.linesep}")
 
     def test_examples(self):
-        execute_ex4_test(1,2,1, "Please enter three numbers:\nx^2+2x+1 = 0 has one real root: -1\n")
-        execute_ex4_test(1,5,6, "Please enter three numbers:\nx^2+5x+6 = 0 has two real roots: -2 and -3\n")
-        execute_ex4_test(0,0,0, "Please enter three numbers:\n0 = 0 has infinite real roots\n")
-        execute_ex4_test(2,0,2, "Please enter three numbers:\n2x^2+2 = 0 has no real roots\n")
-        execute_ex4_test(1,-1,2, "Please enter three numbers:\nx^2-x+2 = 0 has no real roots\n")
-        execute_ex4_test(0,1,2, "Please enter three numbers:\nx+2 = 0 has one real root: -2\n")
+        execute_ex4_test(1,2,1, f"Please enter three numbers:{os.linesep}x^2+2x+1 = 0 has one real root: -1{os.linesep}")
+        execute_ex4_test(1,5,6, f"Please enter three numbers:{os.linesep}x^2+5x+6 = 0 has two real roots: -2 and -3{os.linesep}")
+        execute_ex4_test(0,0,0, f"Please enter three numbers:{os.linesep}0 = 0 has infinite real roots{os.linesep}")
+        execute_ex4_test(2,0,2, f"Please enter three numbers:{os.linesep}2x^2+2 = 0 has no real roots{os.linesep}")
+        execute_ex4_test(1,-1,2, f"Please enter three numbers:{os.linesep}x^2-x+2 = 0 has no real roots{os.linesep}")
+        execute_ex4_test(0,1,2, f"Please enter three numbers:{os.linesep}x+2 = 0 has one real root: -2{os.linesep}")
 
     def test_more_examples(self):
         execute_semi_automated_test(1,0,1, "x^2+1")
