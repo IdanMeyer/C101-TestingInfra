@@ -56,7 +56,7 @@ class TestQuestion1(object):
     def test_automatic(self, iter_number, number_of_items):
         negative_number = random.randint(-1000, -1)
 
-        lst = random.sample(range(0, 2**30), number_of_items)
+        lst = [random.randint(0, 2**30) for x in range(number_of_items)]
         random.shuffle(lst)
 
         lst.append(negative_number)
