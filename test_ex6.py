@@ -45,6 +45,12 @@ def execute_ex6_4_test(question_number, num1):
     result = Infra.execute_c_bin(compiled_path, input_string)
     return "is a palindrome" in result.decode()
 
+def execute_ex6_5_test(question_number, num1, expected_output):
+    input_string = f"{question_number}{os.linesep}{num1}{os.linesep}"
+    result = Infra.execute_c_bin(compiled_path, input_string)
+    output = result.decode().split("Output of Q5:")[-1].strip()
+    assert expected_output == int(output)
+
 
 class TestQuestion1(object):
     QUESTION_NUMBER = 1
@@ -123,3 +129,32 @@ class TestQuestion4(object):
         bin_str = bin(number)[2:]
         is_palindrom = (bin_str ==bin_str[::-1])
         assert is_palindrom == execute_ex6_4_test(self.QUESTION_NUMBER, number)
+
+class TestQuestion5(object):
+    QUESTION_NUMBER = 5
+
+    def swapBits(self, x) :
+        # Get all even bits of x
+        even_bits = x & 0xAAAAAAAA
+        # Get all odd bits of x
+        odd_bits = x & 0x55555555
+        # Right shift even bits
+        even_bits >>= 1
+        # Left shift odd bits
+        odd_bits <<= 1
+        # Combine even and odd bits
+        return (even_bits | odd_bits)
+
+
+    def test_sanity(self):
+        execute_ex6_5_test(self.QUESTION_NUMBER, 9, 6)
+        execute_ex6_5_test(self.QUESTION_NUMBER, 120, 180)
+
+    @pytest.mark.parametrize('number',range(1, 100))
+    def test_automated(self, number):
+        execute_ex6_5_test(self.QUESTION_NUMBER, number, self.swapBits(number))
+
+    @pytest.mark.parametrize('number',range(1, 100))
+    def test_random(self, number):
+        number = random.randint(0, 2**30-1)
+        execute_ex6_5_test(self.QUESTION_NUMBER, number, self.swapBits(number))
