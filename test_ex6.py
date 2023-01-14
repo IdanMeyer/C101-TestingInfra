@@ -34,6 +34,12 @@ def execute_ex6_2_test(question_number, num1, num2):
     assert num1 == int(output_num2)
     assert num2 == int(output_num1)
 
+def execute_ex6_3_test(question_number, num1, expected_output):
+    input_string = f"{question_number}{os.linesep}{num1}{os.linesep}"
+    result = Infra.execute_c_bin(compiled_path, input_string)
+    output = result.decode().split("Output: ")[-1].strip()
+    assert expected_output == int(output)
+
 
 class TestQuestion1(object):
     QUESTION_NUMBER = 1
@@ -67,3 +73,28 @@ class TestQuestion2(object):
         number2 = random.randint(0, 2**31-1)
         execute_ex6_2_test(self.QUESTION_NUMBER, number1, number2)
 
+
+class TestQuestion3(object):
+    QUESTION_NUMBER = 3
+
+    def nextPowerOf2(self, n):
+        p = 1
+        if (n and not(n & (n - 1))):
+            return n
+        while (p < n) :
+            p <<= 1
+        return p;
+
+    def test_sanity(self):
+        execute_ex6_3_test(self.QUESTION_NUMBER, 9, 16)
+        execute_ex6_3_test(self.QUESTION_NUMBER, 8, 8)
+        execute_ex6_3_test(self.QUESTION_NUMBER, 3, 4)
+
+    @pytest.mark.parametrize('number',range(1, 100))
+    def test_automated(self, number):
+        execute_ex6_3_test(self.QUESTION_NUMBER, number, self.nextPowerOf2(number))
+
+    @pytest.mark.parametrize('number',range(1, 100))
+    def test_random(self, number):
+        number = random.randint(0, 2**15)
+        execute_ex6_3_test(self.QUESTION_NUMBER, number, self.nextPowerOf2(number))
